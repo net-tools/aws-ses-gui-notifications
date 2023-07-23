@@ -5,7 +5,7 @@ namespace Nettools\AwsSesGuiNotifications;
 
 
 use \Aws\Sqs\SqsClient; 
-use \Aws\Exception\AwsException;
+
 
 
 
@@ -95,9 +95,13 @@ class Request {
 				$o->subject = 'n/a';
 
 
-			// si message ok
+			
+			// if message delivered
 			if ( ($o->type == 'Delivery') && property_exists($msg->delivery, 'smtpResponse') )
 				$o->smtpResponse = $msg->delivery->smtpResponse;
+			
+			
+			// if message bounced
 			else if ( $o->type == 'Bounce' )
 			{
 				$o->bounce = $msg->bounce;
@@ -106,6 +110,11 @@ class Request {
 				$o->diagnosticCode = property_exists($msg->bounce->bouncedRecipients[0], 'diagnosticCode') ? $msg->bounce->bouncedRecipients[0]->diagnosticCode : 'n/a';
 				$o->status = property_exists($msg->bounce->bouncedRecipients[0], 'status') ? $msg->bounce->bouncedRecipients[0]->status : 'n/a';
 			}
+			
+			
+			// ignoring unkown type
+			else 
+				return null;
 			
 			
 			// return payload object
