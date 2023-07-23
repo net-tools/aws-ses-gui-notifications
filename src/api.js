@@ -132,6 +132,79 @@ nettools.awsSesGuiNotifications.prototype.getHeadersForType = function()
 
 
 /**
+ * Create CSS styles
+ *
+ * @return string
+ */
+nettools.awsSesGuiNotifications.prototype.createCSSContent = function()
+{
+    return `
+#${this.nodeId}{
+    background-color: ghostwhite;
+}
+
+#${this.nodeId} table{
+    margin-top: 1em;
+    margin-bottom: 1em;
+    color:black;
+}
+
+#${this.nodeId} table tr:nth-child(2n){
+    background-color: whitesmoke;
+    color: black;
+}
+    `
+    +
+    this.createCSSContentForType();
+}
+
+
+
+/**
+ * Create CSS styles for specific SQS queue type
+ *
+ * @return string
+ */
+nettools.awsSesGuiNotifications.prototype.createCSSContentForType = function()
+{
+    switch ( this.type )
+    {
+        case 'Delivery':
+            return `
+#${this.nodeId} table th{
+	background-color: darkgreen;
+	color:white;
+}
+
+#${this.nodeId} table{
+	border:2px solid darkgreen;
+    background-color: #00640055;
+}
+                `;
+            
+            
+        case 'Bounce':
+            return `
+#${this.nodeId} table th{
+	background-color: firebrick;
+	color:white;
+}
+
+#${this.nodeId} table{
+	border:2px solid firebrick;
+    background-color: #b2222255;
+}
+                `;
+    
+    
+        default:
+            return '';
+    }
+}
+
+
+
+/**
  * Query SQS queue for notification messages
  *
  * @param Promise pr A Promise resolved with data to display
@@ -160,7 +233,7 @@ nettools.awsSesGuiNotifications.prototype.updateGUI = function()
 
 
     // removing data and creating table content
-    node.innerHTML = '';
+    node.innerHTML = "<style>" + this.createCSSContent() + "<style>"; 
     var table = document.createElement('table');
     table.className = this.tableClassList;
 
