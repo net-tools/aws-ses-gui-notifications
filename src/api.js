@@ -146,6 +146,7 @@ nettools.awsSesGuiNotifications.prototype.createCSSContent = function()
 
 #${this.nodeId} span{
     background-color: ghostwhite;
+	display: inline-block;
 }
 
 #${this.nodeId} table{
