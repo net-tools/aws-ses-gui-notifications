@@ -3,7 +3,7 @@
 
 nettools.awsSesGuiNotifications.prototype.i18n = {
     timestamp : 'Horodatage',
-    type : 'Type',
+    /*type : 'Type',*/
     recipient : 'Destinataire',
     subject : 'Sujet'
 };

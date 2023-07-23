@@ -32,7 +32,7 @@ nettools.awsSesGuiNotifications = function(nodeId, type, tableClassList)
 
 nettools.awsSesGuiNotifications.prototype.i18n = {
     timestamp : 'Time',
-    type : 'Type',
+    //type : 'Type',
     recipient : 'Recipient',
     subject : 'Subject'
 };
@@ -72,7 +72,7 @@ nettools.awsSesGuiNotifications.prototype.initialize = function()
  */
 nettools.awsSesGuiNotifications.prototype.getColumns = function(m)
 {
-	return [ m.timestamp, m.type, m.to, m.subject ].concat(this.getColumnsForType(m));
+	return [ m.timestamp, /*m.type, */m.to, m.subject ].concat(this.getColumnsForType(m));
 }
 
 
@@ -104,7 +104,7 @@ nettools.awsSesGuiNotifications.prototype.getColumnsForType = function(m)
  */
 nettools.awsSesGuiNotifications.prototype.getHeaders = function()
 {
-	return [ this.i18n.timestamp, this.i18n.type, this.i18n.recipient, this.i18n.subject ].concat(this.getHeadersForType());
+	return [ this.i18n.timestamp, /*this.i18n.type,*/ this.i18n.recipient, this.i18n.subject ].concat(this.getHeadersForType());
 }
 
 
