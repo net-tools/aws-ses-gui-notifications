@@ -140,12 +140,15 @@ nettools.awsSesGuiNotifications.prototype.createCSSContent = function()
 {
     return `
 #${this.nodeId}{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#${this.nodeId} span{
     background-color: ghostwhite;
 }
 
 #${this.nodeId} table{
-    margin-top: 1em;
-    margin-bottom: 1em;
     color:black;
 }
 
@@ -234,8 +237,11 @@ nettools.awsSesGuiNotifications.prototype.updateGUI = function()
 
     // removing data and creating table content
     node.innerHTML = "<style>" + this.createCSSContent() + "<style>"; 
-    var table = document.createElement('table');
+	
+	var span = document.createElement('span');
+	var table = document.createElement('table');
     table.className = this.tableClassList;
+	
 
 
     // creating headers
@@ -265,7 +271,8 @@ nettools.awsSesGuiNotifications.prototype.updateGUI = function()
         table.appendChild(_createRow(this.getColumns(tmp[i])));
 
 
-    node.appendChild(table);
+    span.appendChild(table);
+	node.appendChild(span);
 }
 
 
