@@ -246,8 +246,25 @@ nettools.awsSesGuiNotifications.prototype.updateGUI = function()
     node.innerHTML = "<style>" + this.createCSSContent() + "<style>"; 
 
 	
+	// sort array, most recent first
+	var tmp = [];
+	for ( var msg in this.data.lst )
+		tmp.push(this.data.lst[msg]);
+
+
+	tmp.sort(function(a,b){
+		if ( a.timestamp > b.timestamp )
+			return -1;
+		else if ( a.timestamp < b.timestamp )
+			return 1;
+		else
+			return 0;					
+	});
+
+
+
 	// if content exists
-	if ( this.data.lst.length )
+	if ( tmp.length )
 	{
 		var span = document.createElement('span');
 		var table = document.createElement('table');
@@ -256,24 +273,6 @@ nettools.awsSesGuiNotifications.prototype.updateGUI = function()
 
 		// creating headers
 		table.appendChild(_createRow(this.getHeaders(), 'th'));
-
-
-
-		// sort array, most recent first
-		var tmp = [];
-		for ( var msg in this.data.lst )
-			tmp.push(this.data.lst[msg]);
-
-
-		tmp.sort(function(a,b){
-			if ( a.timestamp > b.timestamp )
-				return -1;
-			else if ( a.timestamp < b.timestamp )
-				return 1;
-			else
-				return 0;					
-		});
-
 
 
 		// display messages as rows
