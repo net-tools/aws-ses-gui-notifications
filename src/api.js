@@ -140,17 +140,23 @@ nettools.awsSesGuiNotifications.prototype.createCSSContent = function()
 {
     return `
 #${this.nodeId}{
-    margin-top: 1em;
-    margin-bottom: 1em;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
 }
 
 #${this.nodeId} span{
-    background-color: ghostwhite;
+    background-color: white;
 	display: inline-block;
 }
 
 #${this.nodeId} table{
     color:black;
+	border-collapse: collapse;
+}
+
+#${this.nodeId} table td,
+#${this.nodeId} table th{
+    border-right: 1px solid lightgray;
 }
 
 #${this.nodeId} table tr:nth-child(2n){
@@ -184,7 +190,7 @@ nettools.awsSesGuiNotifications.prototype.createCSSContentForType = function()
 	border:2px solid darkgreen;
     background-color: #00640055;
 }
-                `;
+`;
             
             
         case 'Bounce':
@@ -198,7 +204,7 @@ nettools.awsSesGuiNotifications.prototype.createCSSContentForType = function()
 	border:2px solid firebrick;
     background-color: #b2222255;
 }
-                `;
+`;
     
     
         default:
@@ -238,42 +244,46 @@ nettools.awsSesGuiNotifications.prototype.updateGUI = function()
 
     // removing data and creating table content
     node.innerHTML = "<style>" + this.createCSSContent() + "<style>"; 
+
 	
-	var span = document.createElement('span');
-	var table = document.createElement('table');
-    table.className = this.tableClassList;
-	
+	// if content exists
+	if ( this.data.lst.length )
+	{
+		var span = document.createElement('span');
+		var table = document.createElement('table');
+		table.className = this.tableClassList;
 
 
-    // creating headers
-    table.appendChild(_createRow(this.getHeaders(), 'th'));
-
-
-
-    // sort array, most recent first
-    var tmp = [];
-    for ( var msg in this.data.lst )
-        tmp.push(this.data.lst[msg]);
-
-
-    tmp.sort(function(a,b){
-        if ( a.timestamp > b.timestamp )
-            return -1;
-        else if ( a.timestamp < b.timestamp )
-            return 1;
-        else
-            return 0;					
-    });
+		// creating headers
+		table.appendChild(_createRow(this.getHeaders(), 'th'));
 
 
 
-    // display messages as rows
-    for ( var i = 0 ; i < tmp.length ; i++ )
-        table.appendChild(_createRow(this.getColumns(tmp[i])));
+		// sort array, most recent first
+		var tmp = [];
+		for ( var msg in this.data.lst )
+			tmp.push(this.data.lst[msg]);
 
 
-    span.appendChild(table);
-	node.appendChild(span);
+		tmp.sort(function(a,b){
+			if ( a.timestamp > b.timestamp )
+				return -1;
+			else if ( a.timestamp < b.timestamp )
+				return 1;
+			else
+				return 0;					
+		});
+
+
+
+		// display messages as rows
+		for ( var i = 0 ; i < tmp.length ; i++ )
+			table.appendChild(_createRow(this.getColumns(tmp[i])));
+
+
+		span.appendChild(table);
+		node.appendChild(span);
+	}
 }
 
 
